@@ -1,5 +1,5 @@
 <template>
-	<button @click="disparaAcao()" class="botao botao-perigo" :type="tipo">{{ rotulo }}</button>
+	<button @click="disparaAcao()" class="botao" :class="estiloDoBotao" :type="tipo">{{ rotulo }}</button>
 </template>
 
 <script type="text/javascript">
@@ -22,31 +22,31 @@
 
 		methods:{
 			disparaAcao(){
-				if(confirm('Confirma operação?')){
-					this.$emit('botaoAtivado', new Date());
-				}
+				 if(this.confirmacao) {
+                if(confirm('Confirma operação?')) {
+                    this.$emit('botaoAtivado');
+                }
+                return;
+            }
+            this.$emit('botaoAtivado');
 			}
-		}
+		},
+
+    computed: {
+
+        estiloDoBotao() {
+
+            if(this.estilo == 'padrao' || !this.estilo) return 'botao-padrao';
+            if(this.estilo == 'perigo') return 'botao-perigo';
+        }
+    }
+
 	}
 	
 </script>
 
-<style type="text/css">
-	.botao{
-		display: inline-block;
-		padding: 10px;
-		border-radius: 3px;
-		margin: 10px;
-		font-size: 1.2em;
-	}
+<style lang="scss">
 
-	.botao-perigo{
-		background: firebrick;
-		color: white;		
-	}
+	@import './Botao.scss';
 
-	.botao-padrao{
-		background: darkcyan;
-		color: white;
-	}
 </style>
